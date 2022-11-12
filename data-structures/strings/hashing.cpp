@@ -3,7 +3,7 @@
 
 struct hash_string {
   const int fac = 2017;
-  const long long MOD = 1734232211; // prime!
+  const int MOD = 1734232211; // prime!
   vector<int> pau, ps; // all indices 0-based
   int n;
   void init(string s) {
