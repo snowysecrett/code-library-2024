@@ -7,6 +7,7 @@ struct stbiao_basic {
   int opr(int x, int y) {
     if(is_min) return (b[x] < b[y] ? x : y);
     if(is_max) return (b[x] > b[y] ? x : y);
+    cout << "oh no 1: stbiao_basic operation not set correctly\n";
     return 1226;
   }
   public:
@@ -35,6 +36,6 @@ struct stbiao_basic {
     is_min = is_max = false;
     if(str == "min") is_min = true;
     else if(str == "max") is_max = true;
-    else cout << 1234; // invalid operation
+    else cout << "oh no 1: stbiao_basic operation not set correctly\n"; // invalid operation
   }
 };
