@@ -42,8 +42,8 @@ struct maxflow_graph { //maxflow without mincost :(
   }
   int maxflow() {
     bool vis[n+1];
-    for(int i=1; i<=n; i++) vis[i] = 0;
-    for(int i=1; i<=n; i++) dist[i] = 1e9;
+    for(int i=0; i<=n; i++) vis[i] = 0;
+    for(int i=0; i<=n; i++) dist[i] = 1e9;
     dist[s] = 0;
     queue<int> lv;
     lv.push(s);
