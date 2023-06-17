@@ -12,4 +12,7 @@ struct dsu {
   void union_(int u, int v) {
     dsu[set_of(u)] = set_of(v);
   }
+  void merge(int u, int v) {
+    dsu[set_of(u)] = set_of(v);
+  }
 };
