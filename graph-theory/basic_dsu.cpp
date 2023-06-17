@@ -20,4 +20,7 @@ struct dsu {
   void merge(int u, int v) {
     union_(u, v);
   }
+  int size_of(int u) {
+    return sizes[set_of(u)];
+  }
 };
