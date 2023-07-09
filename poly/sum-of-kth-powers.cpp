@@ -5,7 +5,7 @@ int kth_powers(int n, int k) {
   for(int i=1;i<=k+2 && i<=n;i++) {
     a[i]=(a[i-1]+bm(i,k)) % MOD;
   }
-	if(n<=k+2) return a[n];
+  if(n<=k+2) return a[n];
   int ans = 0;
   int now;
   now=f[0]=g[0]=1;
