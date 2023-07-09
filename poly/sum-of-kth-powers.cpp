@@ -7,7 +7,7 @@ int kth_powers(int n, int k) {
   }
   if(n<=k+2) return a[n];
   int ans = 0;
-  int now;
+  int now; 
   now=f[0]=g[0]=1;
 	for(int i=1;i<=k+2;i++) {
 		now=now*(n-i)%MOD,f[i]=f[i-1]*i%MOD,g[i]=-g[i-1]*i%MOD;	
