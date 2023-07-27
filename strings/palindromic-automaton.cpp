@@ -103,18 +103,15 @@ struct pam {
           done= 1;break;
         }
       }
-      if(done)return;
-      fail[i] = -1;
-      len[i] = 1;
-      alleq[i] = 1;
-      corr[i] = i;
-      oddrt.push_back(i);
+      if(!done) {
+        fail[i] = -1;
+        len[i] = 1;
+        alleq[i] = 1;
+        corr[i] = i;
+        oddrt.push_back(i);
+      }
     }
-  }
-  void compile() { // MUST COMPILE BEFORE ANY QUERY
-    for(int i=0;i<s.size();i++){
-      if(len[i]==2)evenrt.push_back(i);
-    }
+    if(len[i] == 2) evenrt.push_back(i);
   }
   public:
 };
