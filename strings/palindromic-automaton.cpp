@@ -2,6 +2,7 @@ struct pam {
   vector<vector<int>>pam;
   vector<vector<int>>revfail;
   vector<int> oddrt,evenrt,fail,len,alleq,corr;
+  vector<int>cnt;
   string s;//the string itself
   // Declare other variables here
   void init(int n) {
@@ -11,6 +12,7 @@ struct pam {
     len.resize(n + 5);
     alleq.resize(n + 5);
     corr.resize(n + 5);
+    cnt.resize(n + 5);
     // Initialize other arrays here
   }
   void append(char c) {
@@ -19,6 +21,7 @@ struct pam {
     if(i == 0) {
       fail[0] = -1;
       len[0] = 1;
+      cnt[0] = 1;
       alleq[0] = 1;
       corr[0] = 0;
       oddrt.push_back(0);
@@ -30,6 +33,7 @@ struct pam {
         bool done=0;
         for(int x:revfail[nxt]){
           if(s[x]==s[i] && len[x]==len[nxt]+1){
+            cnt[x]++;
             corr[i]=x;
             done = 1; 
             break;
@@ -40,6 +44,7 @@ struct pam {
         revfail[nxt].push_back(i);
         len[i]=len[nxt]+1;
         alleq[i]=1;
+        cnt[i]=1;
         corr[i]=i;
         break;
       }
@@ -48,6 +53,7 @@ struct pam {
         for(int x:pam[nxt]){
           if(s[x]==s[i]){
             done=1;
+            cnt[x]++;
             corr[i]=x;
             break;
           }
@@ -55,6 +61,7 @@ struct pam {
         if(done)break;
         pam[nxt].push_back(i);
         corr[i]=i;
+        cnt[i]=1;
         len[i]=len[nxt]+2;
         alleq[i]=alleq[nxt]&(s[i]==s[i-1]);
         int again=nxt;
@@ -100,6 +107,7 @@ struct pam {
       for(int x: oddrt){
         if(s[x]==s[i]){
           corr[i]=x;
+          cnt[x]++;
           done= 1;break;
         }
       }
@@ -107,6 +115,7 @@ struct pam {
         fail[i] = -1;
         len[i] = 1;
         alleq[i] = 1;
+        cnt[i] = 1;
         corr[i] = i;
         oddrt.push_back(i);
       }
