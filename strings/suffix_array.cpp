@@ -53,3 +53,14 @@ vector<int> suffix_array(string s) {
   for(int i=0; i<n; i++) w.push_back(v[i].first);
   return w;
 }
+// lcp array code
+// suf is the suffix array
+// for 1 ≤ i < n, lcp[i] = LCP(s[suf[i-1]..-1], s[suf[i]..-1])
+for(int i=0; i<n; i++) pos[suf[i]] = i;
+int lcp[n];
+int k = 0;
+for(int i=0; i<n-1; i++){
+  while(s[i + k] == s[suf[pos[i] - 1] + k]) k++;
+  lcp[pos[i]] = k;
+  k = max(k-1, 0);
+}
