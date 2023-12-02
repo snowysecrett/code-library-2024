@@ -208,32 +208,6 @@ struct segtree_basic {
       return qu7(l, r, constl, mid, 2*idx+1, val);
     }
   }
-  int qu8(int l, int r, int constl, int constr, int idx, int val) { // first partial sum at least v, only works when partial sum is non-decreasing
-    if(l <= constl && constr <= r) {
-      if(st[idx].sum < val) return -1;
-      while(constl < constr) {
-        int mid = (constl + constr) >> 1;
-        push_down(idx);
-        if(st[2*idx+1].sum >= val) {
-          idx = 2*idx+1, constr = mid;
-        }
-        else {
-          val -= st[2*idx+1].sum;
-          idx = 2*idx+2, constl = mid+1;
-        }
-      }
-      return constl;
-    }
-    int mid = (constl + constr) >> 1;
-    push_down(idx);
-    if(mid < l || r < constl) return qu8(l, r, mid+1, constr, 2*idx+2, val - st[2*idx+1].sum);
-    else if(constr < l || r < mid+1) return qu8(l, r, constl, mid, 2*idx+1, val);
-    else {
-      int lchild = qu8(l, r, constl, mid, 2*idx+1, val);
-      if(lchild != -1) return lchild;
-      return qu8(l, r, mid+1, constr, 2*idx+2, val - st[2*idx+1].sum);
-    }
-  }
   public:
   void resize(int k) {
     st.resize(4*k + 10);
@@ -257,6 +231,4 @@ struct segtree_basic {
   int query_lastAtLeast(int l, int r, int v) { return qu6(l, r, 0, stok, 0, v); } 
  
   int query_lastAtMost(int l, int r, int v) { return qu7(l, r, 0, stok, 0, v); }
-
-  int query_firstPSAtLeast(int l, int r, int v) { return qu8(l, r, 0, stok, 0, v); }
 };
