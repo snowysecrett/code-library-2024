@@ -1,3 +1,6 @@
+// https://oj.uz/submission/985999
+// 1066 ms on n, m ≤ 10^5 with HLD
+
 struct sets_and_fenwick {
   int n, m; // n = ARRAY SIZE, m = MAX ELEMENT
   vector<int> bit;
