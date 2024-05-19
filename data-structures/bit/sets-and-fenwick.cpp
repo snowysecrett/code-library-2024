@@ -1,5 +1,6 @@
 // https://oj.uz/submission/985999
 // 1066 ms on n, m ≤ 10^5 with HLD
+// Supports range set to v, count number of elements having value in [l, r], where v, maxr <= m
 
 struct sets_and_fenwick {
   int n, m; // n = ARRAY SIZE, m = MAX ELEMENT
