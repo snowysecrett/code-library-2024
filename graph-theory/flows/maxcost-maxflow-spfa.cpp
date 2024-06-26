@@ -1,26 +1,3 @@
-#include "bits/stdc++.h"
-using namespace std;
-#define int long long
-#define double long double
-const int MAXN = 2e5 + 10;
-const int MOD = 1e9 + 7;
-mt19937_64 rng((int)std::chrono::steady_clock::now().time_since_epoch().count());
-int rnd(int x, int y) {
-  int u = uniform_int_distribution<int>(x, y)(rng); return u;
-}
-int bm(int b, int p) {
-  if(p==0) return 1 % MOD;
-  int r = bm(b, p >> 1);
-  if(p&1) return (((r*r) % MOD) * b) % MOD;
-  return (r*r) % MOD;
-}
-int inv(int b) { 
-  return bm(b, MOD-2);
-}
-int fastlog(int x) {
-  return (x == 0 ? -1 : 64 - __builtin_clzll(x) - 1);
-}
-void printcase(int i) { cout << "Case #" << i << ": "; }
 struct maxcost_maxflow {
   // Best algorithm is SPFA
   struct edge {
@@ -108,48 +85,3 @@ struct maxcost_maxflow {
     return mf;
   }
 };
-void solve(int tc) {
-  int a, b;
-  cin >> a >> b;
-  int p, q;
-  cin >> p >> q;
-  maxcost_maxflow f;
-  f.init((p+1) * (q+1) + 2, (p+1) * (q+1) + 1, (p+1) * (q+1) + 2);
-  for(int i=0; i<=p; i++) {
-    for(int j=0; j<q; j++) {
-      int v;
-      cin >> v;
-      f.addedge(i*(q+1)+j+1, i*(q+1)+j+2, v, 1);
-      f.addedge(i*(q+1)+j+1, i*(q+1)+j+2, 0, MOD);
-    }
-  }
-  for(int i=0; i<=q; i++) {
-    for(int j=0; j<p; j++) {
-      int v;
-      cin >> v;
-      f.addedge(j*(q+1)+i+1, (j+1)*(q+1)+i+1, v, 1);
-      f.addedge(j*(q+1)+i+1, (j+1)*(q+1)+i+1, 0, MOD);
-    }
-  }
-  for(int i=0; i<a; i++) {
-    int k, y, x;
-    cin >> k >> x >> y;
-    f.addedge((p+1) * (q+1) + 1, x*(q+1)+y+1, 0, k);
-  }
-  for(int i=0; i<b; i++) {
-    int k, y, x;
-    cin >> k >> x >> y;
-    f.addedge(x*(q+1)+y+1, (p+1) * (q+1) + 2, 0, k);
-  }
-  cout << f.maxcost() << '\n';
-}
-int32_t main() {
-  ios::sync_with_stdio(0); cin.tie(0);
-  int t = 1; //cin >> t;
-  for(int i=1; i<=t; i++) solve(i);
-}
-/*
-g++ A.cpp -std=c++17 -O2 -o A
-./A < input.txt
-
-*/
