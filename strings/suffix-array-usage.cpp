@@ -1,16 +1,18 @@
-#include "bits/stdc++.h"
+#pragma GCC optimize("Ofast")
+#include <bits/stdc++.h>
 using namespace std;
 const int MAXN = 1e6 + 10;
 bool equivalence(pair<int,pair<int,int> > x, pair<int,pair<int,int> > y) {
   return x.second.second<y.second.second;
 }
 int pos[MAXN];
-vector<pair<int,int> > wow[MAXN];
+int newClasses[MAXN];
+int ps[MAXN];
+pair<int, pair<int, int> > v[MAXN], w[MAXN]; 
 vector<int> suffix_array(string s) {
   int n = s.size();
-  vector<pair<int, pair<int, int> > > v; 
-  for(int i=0; i<n; i++) v.push_back({i, {0, s[i]}});
-  sort(v.begin(),v.end(),equivalence);
+  for(int i=0; i<n; i++) v[i] = {i, {0, s[i]}};
+  sort(v, v + n, equivalence);
   int mm = max(128, n);
   for(int i=0; i<20; i++) {
     for(int j=0; j<n; j++) {
@@ -19,38 +21,31 @@ vector<int> suffix_array(string s) {
     for(int j=0; j<n; j++) {
       pos[v[j].first] = j;
     }
+    for(int j=0; j<mm; j++) ps[j] = 0;
     for(int j=0; j<n; j++) {
       int tar = v[j].first + (1 << i);
       tar %= n;
       v[j].second.second = v[pos[tar]].second.first;
+      ps[v[j].second.second]++;
     }
-    for(int j=0; j<mm; j++) wow[j].clear();
-    for(int j=0; j<n; j++) wow[v[j].second.second].push_back({v[j].first,v[j].second.first});
-    int ptr=0;
-    for(int j=0; j<mm; j++) {
-      for(pair<int,int> x: wow[j]) {
-        v[ptr].first = x.first;
-        v[ptr].second.first = x.second;
-        v[ptr].second.second = j;
-        ptr++;
-      }
+    for(int j=1; j<mm; j++) ps[j] += ps[j-1];
+    for(int j=n-1; j>=0; j--) {
+      int ec = v[j].second.second;
+      ps[ec]--;
+      w[ps[ec]] = v[j];
     }
-    for(int j=0; j<mm; j++) wow[j].clear();
-    for(int j=0; j<n; j++) wow[v[j].second.first].push_back({v[j].first,v[j].second.second});
-    ptr=0;
-    for(int j=0; j<mm; j++) {
-      for(pair<int,int> x: wow[j]) {
-        v[ptr].first = x.first;
-        v[ptr].second.first = j;
-        v[ptr].second.second = x.second;
-        ptr++;
-      }
+    for(int j=0; j<mm; j++) ps[j] = 0;
+    for(int j=0; j<n; j++) ps[w[j].second.first]++;
+    for(int j=1; j<mm; j++) ps[j] += ps[j-1];
+    for(int j=n-1; j>=0; j--) {
+      int ec = w[j].second.first;
+      ps[ec]--;
+      v[ps[ec]] = w[j];
     }
-    vector<int> newClasses;
-    newClasses.push_back(0);
+    newClasses[0] = 0;
     for(int j=1; j<n; j++) {
-      if(v[j].second != v[j-1].second) newClasses.push_back(newClasses[j-1] + 1);
-      else newClasses.push_back(newClasses[j-1]);
+      if(v[j].second != v[j-1].second) newClasses[j] = newClasses[j-1] + 1;
+      else newClasses[j] = newClasses[j-1];
     }
     for(int j=0; j<n; j++) {
       v[j].second.first = 0;
@@ -63,9 +58,14 @@ vector<int> suffix_array(string s) {
 }
 void solve(int tc) {
   string s;
-  cin >> s;
+  int len = 500000;
+  for(int i=0; i<len; i++) {
+    s += (rand() % 2 ? 'a' + rand() % 26 : 'A' + rand() % 26);
+  }
+  //cin >> s;
   s = s + "$";
   vector<int> suf = suffix_array(s);
+
   int n = s.size();
   int pos[n];
   for(int i=0; i<n; i++) pos[suf[i]] = i;
