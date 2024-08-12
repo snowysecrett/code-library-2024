@@ -1,3 +1,9 @@
+bool equivalence(pair<int,pair<int,int> > x, pair<int,pair<int,int> > y) {
+  return x.second.second<y.second.second;
+}
+const int MAXN = 5e5 + 10;
+int pos[MAXN];
+vector<pair<int,int> > wow[MAXN];
 vector<int> suffix_array(string s) {
   int n = s.size();
   vector<pair<int, pair<int, int> > > v; 
