@@ -75,7 +75,7 @@ void solve(int tc) {
   for(int i=0; i<n-1; i++){
     while(s[i + k] == s[suf[pos[i] - 1] + k]) k++;
     lcp[pos[i]] = k;
-    k = max(k-1, 0ll);
+    k = max(k-1, 0);
   }
   long long ans = 0;
   for(int i=0; i<suf.size(); i++) {
