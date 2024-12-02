@@ -1,10 +1,10 @@
-__int128 gcdd(__int128 x, __int128 y) {
-  if(x == 0) return y;
-  if(y == 0) return x;
-  if(x < y) return gcdd(x, y % x);
-  return gcdd(y, x % y);
-}
 struct Fraction {
+  __int128 gcdd(__int128 x, __int128 y) {
+    if(x == 0) return y;
+    if(y == 0) return x;
+    if(x < y) return gcdd(x, y % x);
+    return gcdd(y, x % y);
+  }
   int p, q;
   Fraction operator*(Fraction other) {
     __int128 num = p, den = q;
