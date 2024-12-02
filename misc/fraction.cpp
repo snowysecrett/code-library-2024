@@ -24,7 +24,7 @@ struct Fraction {
     Fraction sum = {n1, n2};
     return sum;
   }
+  Fraction frac(int p, int q) {
+    return {p, q};
+  }
 };
-Fraction make_frac(int p, int q) {
-  return {p, q};
-}
