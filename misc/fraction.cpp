@@ -16,7 +16,7 @@ struct Fraction {
     return product;
   }
   Fraction operator+(Fraction other) {
-    __int128 l = q * other.q / gcd(q, other.q); 
+    __int128 l = q * other.q / gcdd(q, other.q); 
     __int128 num = p * l/q + other.p * l/other.q;
     __int128 g = gcdd(l, num);
     l /= g, num /= g;
