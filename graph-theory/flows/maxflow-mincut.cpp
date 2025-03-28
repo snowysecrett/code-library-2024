@@ -1,11 +1,11 @@
-struct maxflow_graph { //maxflow without mincost :(
+struct maxflow_graph { //2025.03.28
   int n, s, t;
   vector<vector<pair<int, int> > > adj;
   vector<vector<int> > comp;
   vector<int> dist;
   const int maxedgeflow = 3e9; // max flow for a single edge
   map<pair<int,int>, int> exist;
-  vector<pair<int,int>> inits;
+  vector<pair<pair<int,int>, int>> inits;
   void init(int n_, int s_, int t_) {
     n = n_, s = s_, t = t_; // node count, source node, sink node
     adj.resize(n + 5);
@@ -13,7 +13,7 @@ struct maxflow_graph { //maxflow without mincost :(
     comp.resize(n + 5);
   }
   void addedge(int u, int v, int f) {
-    inits.push_back({u, v});
+    inits.push_back({{u, v}, f});
     // adding a single direction edge u->v with flow f
     int us = adj[u].size(), vs = adj[v].size();
     if(exist.count({u, v})) {
@@ -79,9 +79,9 @@ struct maxflow_graph { //maxflow without mincost :(
     if(answer == 0) return 0;
     return answer + maxflow();
   }
-  vector<pair<int, int>> mincut() {
+  vector<pair<pair<int, int>,int>> mincut() {
     if(!called) maxflow();
-    vector<pair<int, int>> mincut_edges;
+    vector<pair<pair<int, int>,int>> mincut_edges;
     bool vis[n+1];
     for(int i=1; i<=n; i++) vis[i] = 0;
     queue<int> q;
@@ -94,7 +94,7 @@ struct maxflow_graph { //maxflow without mincost :(
         for(pair<int, int> x: adj[f]) {
           if(x.second > 0) q.push(x.first);
           else {
-            pair<int, int> tar = {f, x.first};
+            pair<pair<int, int>, int> tar = {{f, x.first}, x.second};
             for(auto x: inits) {
               if(x == tar) {
                 mincut_edges.push_back(tar);
