@@ -93,13 +93,15 @@ struct maxflow_graph { //maxflow without mincost :(
         vis[f] = 1;
         for(pair<int, int> x: adj[f]) {
           if(x.second > 0) q.push(x.first);
-          else {
-            pair<int, int> tar = {f, x.first};
-            for(auto x: inits) {
-              if(x.first == tar) {
-                mincut_edges.push_back(x);
-              }
-            }
+        }
+      }
+    }
+    for(int i=1; i<=n; i++) {
+      for(pair<int, int> x: adj[i]) {
+        if(vis[i] && !vis[x.first]) {
+          for(auto y: inits) {
+            pair<int, int> tar = {i, x.first};
+            if(tar == y.first) mincut_edges.push_back(y);
           }
         }
       }
