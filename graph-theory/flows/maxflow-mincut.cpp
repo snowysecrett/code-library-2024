@@ -1,4 +1,4 @@
-struct maxflow_graph { //2025.03.28
+struct maxflow_graph { //maxflow without mincost :(
   int n, s, t;
   vector<vector<pair<int, int> > > adj;
   vector<vector<int> > comp;
@@ -94,10 +94,10 @@ struct maxflow_graph { //2025.03.28
         for(pair<int, int> x: adj[f]) {
           if(x.second > 0) q.push(x.first);
           else {
-            pair<pair<int, int>, int> tar = {{f, x.first}, x.second};
+            pair<int, int> tar = {f, x.first};
             for(auto x: inits) {
-              if(x == tar) {
-                mincut_edges.push_back(tar);
+              if(x.first == tar) {
+                mincut_edges.push_back(x);
               }
             }
           }
